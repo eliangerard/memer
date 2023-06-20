@@ -2,7 +2,7 @@ const { SlashCommandBuilder } = require('discord.js');
 const { EmbedBuilder } = require("discord.js");
 
 const leave = async (channel, client) => {
-	const voiceJoined = await client.distube.voices.get(msg.member.voice.channel);
+	const voiceJoined = await client.distube.voices.get(channel);
 	voiceJoined.leave();
 	const embed = new EmbedBuilder()
 		.setTitle(client.emotes.success + " Adiós")
