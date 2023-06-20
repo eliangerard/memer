@@ -2,6 +2,7 @@ module.exports = {
 	name: 'speech',
 	once: false,
 	async execute(msg, client) {
+		console.log(client.channel.id);
         const user = msg.author.username + msg.author.discriminator;
 		console.log(`${user}: ${msg.content}`);
         if (!msg.content) return;

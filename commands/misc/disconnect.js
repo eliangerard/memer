@@ -16,13 +16,13 @@ module.exports = {
 	inVoice: true,
 	voiceCommand: ['salte', 'desconéctate'],
 	async executeInteraction(interaction, client) {
-		const embed = leave(interaction.member.voice.channel, client)
+		const embed = await leave(interaction.member.voice.channel, client)
 		interaction.editReply({ embeds: [embed] }).then(msg => {
 			setTimeout(() => msg.delete(), 15000)
 		});
 	},
 	async execute(content, msg, client) {
-		const embed = leave(msg.member.voice.channel, client)
+		const embed = await leave(msg.member.voice.channel, client)
 		client.channel.send({ embeds: [embed] }).then(msg => {
 			setTimeout(() => msg.delete(), 15000)
 		});
