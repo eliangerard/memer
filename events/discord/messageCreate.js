@@ -13,7 +13,7 @@ module.exports = {
         const command = client.commands.get(commandCalled);
         client.interaction = null;
         client.channel = message.channel;
-        if(!command)
+        if(!command && client.config.prefix.length > 0)
             return message.reply("No hay comando de esos")
 
         command.execute(content.join(' '), message, client);
