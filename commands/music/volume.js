@@ -7,6 +7,7 @@ module.exports = {
         .setDescription('Cambia el volumen de la reproducción')
         .addIntegerOption(option => option.setName('porcentaje').setDescription('Porcentaje del volumen').setRequired(true)),
     inVoice : true,
+    alias : ['v'],
     voiceCommand : ['volumen'],
 	async executeInteraction(interaction, client) {
         const queue = client.distube.getQueue(interaction.guild);

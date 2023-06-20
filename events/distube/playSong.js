@@ -3,6 +3,7 @@ const { EmbedBuilder } = require("discord.js");
 module.exports = {
 	name: 'playSong',
 	execute(queue, song, client) {
+    client.distube.voices.get(queue).setSelfDeaf(false);
     queue.setVolume(100);
     const embed = new EmbedBuilder()
       .setTitle(client.emotes.play + " Reproduciendo")

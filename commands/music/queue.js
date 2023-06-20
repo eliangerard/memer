@@ -48,6 +48,7 @@ module.exports = {
 		.setName('queue')
         .setDescription('Muestra la lista de reproducción del bot'),
     inVoice : false,
+    alias : ['q'],
     voiceCommand : ['cola', 'lista'],
 	async executeInteraction(interaction, client) {
         const queue = await client.distube.getQueue(interaction.guild);

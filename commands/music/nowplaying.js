@@ -3,9 +3,10 @@ const { EmbedBuilder } = require("discord.js");
 
 module.exports = {
 	data: new SlashCommandBuilder()
-		.setName('np')
+		.setName('nowplaying')
         .setDescription('Muestra lo que se está reproduciendo en este momento'),
     inVoice : false,
+    alias : ['np'],
     voiceCommand : ['cuál','cual'],
     voiceParams : false,
 	async executeInteraction(interaction, client) {

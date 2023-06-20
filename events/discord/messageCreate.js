@@ -10,12 +10,19 @@ module.exports = {
         
         const content = message.content.split(' ');
         const commandCalled = content.shift().substring(client.config.prefix.length);
-        const command = client.commands.get(commandCalled);
+        let command = client.commands.get(commandCalled);
+        if(!command)
+            command = client.commands.find(cmd => {
+                console.log(cmd.alias);
+                return cmd.alias && cmd.alias.includes(commandCalled)
+            } );
+
+        if(!command && client.config.prefix.length > 0)
+            return message.reply("No hay comando de esos")
+
         console.log(command);
         client.interaction = null;
         client.channel = message.channel;
-        if(!command && client.config.prefix.length > 0)
-            return message.reply("No hay comando de esos")
 
         command.execute(content.join(' '), message, client);
 	},

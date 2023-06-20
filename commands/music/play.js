@@ -6,6 +6,7 @@ module.exports = {
         .setDescription('Reproduce una canción')
         .addStringOption(option => option.setName('canción').setDescription('Lo que quieras reproducir, puede ser una búsqueda o un link').setRequired(true)),
     inVoice : true,
+    alias : ['p'],
     voiceCommand : ['reproduce', 'pon'],
 	async executeInteraction(interaction, client) {
         const song = interaction.options.getString('canción');

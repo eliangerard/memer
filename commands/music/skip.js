@@ -6,6 +6,7 @@ module.exports = {
 		.setName('skip')
         .setDescription('Saltea la canción que se esté reproduciendo'),
     inVoice : true,
+    alias : ['s'],
     voiceCommand : ['siguiente', 'skip'],
 	async executeInteraction(interaction, client) {
         interaction.deferReply();

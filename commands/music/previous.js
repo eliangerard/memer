@@ -6,6 +6,7 @@ module.exports = {
 		.setName('previous')
         .setDescription('Reproduce la canción anterior'),
     inVoice : true,
+    alias : ['prev'],
     voiceCommand : ['anterior', 'regresa'],
 	async executeInteraction(interaction, client) {
         const queue = client.distube.getQueue(interaction.guild);

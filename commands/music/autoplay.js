@@ -38,6 +38,7 @@ module.exports = {
         .setName('autoplay')
         .setDescription('Activa o desactiva el modo autoplay'),
     inVoice: true,
+    alias : ['ap'],
     voiceCommand: ['autoplay', 'auto'],
     async executeInteraction(interaction, client) {
         const embed = autoplay(interaction, client);
