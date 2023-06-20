@@ -93,7 +93,6 @@ distubeEvents.forEach(file => {
     const filePath = path.join(distubePath, file);
     const event = require(filePath);
     client.distube.on(event.name, (...args) => {
-        console.log(...args);
         event.execute(...args, client);
     });
 });

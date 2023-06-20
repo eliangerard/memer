@@ -9,11 +9,8 @@ module.exports = {
         if (!message.content.startsWith(client.config.prefix) || message.author.bot) return;
         
         const content = message.content.split(' ');
-        console.log(content);
         const commandCalled = content.shift().substring(1);
-        console.log(commandCalled);
         const command = client.commands.get(commandCalled);
-        console.log(command);
         client.interaction = null;
         client.channel = message.channel;
         if(!command)
