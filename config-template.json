@@ -1,0 +1,23 @@
+{
+    "clientId" : "DISCORD_CLIENT_ID",
+    "token": "DISCORD_TOKEN",
+    "lang": "es-MX",
+    "botURL": "https://cdn.discordapp.com/avatars/xxxxxxxxxxxxx/xxxxxxxxxxxxxxx.png",
+    "voicePrefix" : ["m", "meme", "memer", "memes"],
+    "emoji": {
+        "play": "▶️",
+        "stop": "⏹️",
+        "queue": "📄",
+        "success": "☑️",
+        "repeat": "🔁",
+        "error": "❌",
+        "map": "🗺️",
+	    "sad": "😢"
+    },
+    "presence":{
+        "activity":"I'm ready!",
+        "type": "STREAMING",
+        "url": "https://www.twitch.tv/"
+    },
+    "prefix" : "!"
+}
