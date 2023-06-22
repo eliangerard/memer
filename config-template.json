@@ -3,6 +3,7 @@
     "token": "DISCORD_TOKEN",
     "lang": "es-MX",
     "botURL": "https://cdn.discordapp.com/avatars/xxxxxxxxxxxxx/xxxxxxxxxxxxxxx.png",
+    "accentColor" : "#c8f0dc",
     "voicePrefix" : ["m", "meme", "memer", "memes"],
     "emoji": {
         "play": "▶️",

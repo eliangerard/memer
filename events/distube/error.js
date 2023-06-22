@@ -10,7 +10,6 @@ module.exports = {
             .setTimestamp()
             .setFooter({text:'Memer', iconURL: client.botURL})
         
-        console.log(channel);
         channel.send({ embeds: [embed] }).then(msg => {
             setTimeout(() => msg.delete(), 15000)
         })    
