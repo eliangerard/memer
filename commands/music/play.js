@@ -10,7 +10,7 @@ module.exports = {
     voiceCommand: ['reproduce', 'pon'],
     queueDependent: false,
     async execute(client, queue, message, params) {
-        const [song] = params;
+        const song = params.join(' ');
         if (song.length == 0) return;
         client.distube.play(message.member.voice.channel, song, { member: message.member, textChannel: message.channel });
         return {
