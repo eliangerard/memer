@@ -7,10 +7,10 @@ module.exports = {
 		if (!message.content) return;
 		message.content = message.content.toLowerCase();
 		const params = message.content.split(' ');
-		if (!client.config.voicePrefix.includes(content.shift()))
+		if (!client.config.voicePrefix.includes(params.shift()))
 			return;
 
-		const voiceCommand = content.shift();
+		const voiceCommand = params.shift();
 		console.log(`Comando dicho: ${voiceCommand}`);
 		const command = client.commands.find(command => command.voiceCommand && command.voiceCommand.includes(voiceCommand));
 		if (!command)
