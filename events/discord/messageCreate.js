@@ -4,13 +4,17 @@ module.exports = {
     async execute(message, client) {
         if (!message.content.startsWith(client.config.prefix) || message.author.bot) return;
 
-        
+
         const params = message.content.split(' ');
 
         const commandCalled = params.shift().substring(client.config.prefix.length);
         const command = client.commands.get(commandCalled);
 
-        if (!command) return;
+        if (!command)
+            command = client.commands.find(cmd => cmd.alias && cmd.alias.includes(commandCalled));
+
+        if (!command && client.config.prefix.length > 0)
+            return message.reply("No hay comando de esos");
 
         try {
             if (command.inVoice) {
@@ -57,9 +61,9 @@ module.exports = {
 
             await message.reply({ embeds: [embed] }).then(msg => {
                 if (react.length > 0) {
-					react.forEach(emoji => msg.react(emoji))
-					client.on('messageReactionAdd', handler(reaction, user, msg));
-				}
+                    react.forEach(emoji => msg.react(emoji))
+                    client.on('messageReactionAdd', handler(reaction, user, msg));
+                }
                 else setTimeout(() => msg.delete(), 15000);
             });
         } catch (error) {
