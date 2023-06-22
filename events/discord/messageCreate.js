@@ -19,6 +19,8 @@ module.exports = {
         if (!command && client.config.prefix.length > 0)
             return message.reply("No hay comando de esos");
 
+        if (!command && client.config.prefix.length == 0)
+            return;
         try {
             if (command.inVoice) {
                 if (message.member.voice.channel === undefined)
