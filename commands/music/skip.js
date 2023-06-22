@@ -9,7 +9,10 @@ module.exports = {
     voiceCommand: ['siguiente', 'skip'],
     queueDependent: true,
     async execute(client, queue, message, content) {
-        queue.skip();
+        if (queue.songs.length == 1)
+            queue.stop();
+        else
+            queue.skip();
 
         return {
             title: client.emotes.success + " Skip",
