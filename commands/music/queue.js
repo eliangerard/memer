@@ -51,7 +51,6 @@ module.exports = {
     voiceCommand : ['cola', 'lista'],
     queueDependent : true,
 	async execute(client, queue, message, content) {
-        const queue = await client.distube.getQueue(interaction.guild);
         page = 0;
         totalPages = Math.ceil(queue.songs.length/10);
         updateQueue(queue);
