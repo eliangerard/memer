@@ -4,7 +4,8 @@ module.exports = {
     async execute(message, client) {
         if (!message.content.startsWith(client.config.prefix) || message.author.bot) return;
 
-        const command = client.commands.get(interaction.commandName);
+        const commandCalled = content.shift().substring(client.config.prefix.length);
+        const command = client.commands.get(commandCalled);
 
         if (!command) return;
 
@@ -38,9 +39,9 @@ module.exports = {
                 });
             }
 
-            const params = interaction.options.data.map((option) => option.value);
+            const params = message.content.split(' ');
 
-            const { title = null, description = null, fields = [], image = null, thumbnail = null, react = [], handler = null } = await command.execute(client, queue, interaction, params);
+            const { title = null, description = null, fields = [], image = null, thumbnail = null, react = [], handler = null } = await command.execute(client, queue, message, params);
 
             console.log({ text: client.user.username, iconURL: client.botURL });
             const embed = new EmbedBuilder()
