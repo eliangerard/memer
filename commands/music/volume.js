@@ -11,7 +11,7 @@ module.exports = {
     queueDependent : true,
 	async execute(client, queue, message, content) {
         const [volume] = content;
-        queue.setVolume(volume);
+        queue.setVolume(parseInt(volume));
 
         return {
             title: client.emotes.success+" Volumen actualizado",

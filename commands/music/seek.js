@@ -10,7 +10,7 @@ module.exports = {
     queueDependent : true,
     async execute(client, queue, message, content) {
         const [seconds] = content
-        queue.seek(seconds);
+        queue.seek(parseInt(seconds));
         return {
             title: client.emotes.success + " Seek",
             description: `Saltando a ${seconds}!`
