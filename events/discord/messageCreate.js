@@ -4,7 +4,10 @@ module.exports = {
     async execute(message, client) {
         if (!message.content.startsWith(client.config.prefix) || message.author.bot) return;
 
-        const commandCalled = content.shift().substring(client.config.prefix.length);
+        
+        const params = message.content.split(' ');
+
+        const commandCalled = params.shift().substring(client.config.prefix.length);
         const command = client.commands.get(commandCalled);
 
         if (!command) return;
@@ -38,8 +41,6 @@ module.exports = {
                     setTimeout(() => msg.delete(), 15000)
                 });
             }
-
-            const params = message.content.split(' ');
 
             const { title = null, description = null, fields = [], image = null, thumbnail = null, react = [], handler = null } = await command.execute(client, queue, message, params);
 
