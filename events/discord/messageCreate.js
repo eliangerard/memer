@@ -1,3 +1,5 @@
+const { EmbedBuilder } = require('discord.js');
+
 module.exports = {
     name: 'messageCreate',
     once: false,
@@ -8,7 +10,7 @@ module.exports = {
         const params = message.content.split(' ');
 
         const commandCalled = params.shift().substring(client.config.prefix.length);
-        const command = client.commands.get(commandCalled);
+        let command = client.commands.get(commandCalled);
 
         if (!command)
             command = client.commands.find(cmd => cmd.alias && cmd.alias.includes(commandCalled));
@@ -24,15 +26,15 @@ module.exports = {
                     });
                 let voiceConnection;
 
-                if (!interaction.guild.members.me.voice.channel)
-                    voiceConnection = await client.distube.voices.join(interaction.member.voice.channel);
+                if (!message.guild.members.me.voice.channel)
+                    voiceConnection = await client.distube.voices.join(message.member.voice.channel);
                 else
-                    voiceConnection = await client.distube.voices.get(interaction.member.voice.channel);
+                    voiceConnection = await client.distube.voices.get(message.member.voice.channel);
 
                 voiceConnection.setSelfDeaf(false);
             }
 
-            const queue = client.distube.getQueue(interaction.guild);
+            const queue = client.distube.getQueue(message.guild);
             if (command.queueDependent && !queue) {
                 const embed = new EmbedBuilder()
                     .setTitle(client.emotes.error + " Error")
