@@ -3,7 +3,6 @@ const { EmbedBuilder } = require("discord.js");
 module.exports = {
 	name: 'playSong',
 	execute(queue, song, client) {
-    client.distube.voices.get(queue).setSelfDeaf(false);
     queue.setVolume(100);
     const embed = new EmbedBuilder()
       .setTitle(client.emotes.play + " Reproduciendo")
@@ -20,7 +19,7 @@ module.exports = {
       .setFooter({text:'Memer', iconURL: client.botURL});
       
     if(!client.interaction)
-      return client.channel.send({ embeds: [embed] }).then(msg => {
+      return queue.textChannel.send({ embeds: [embed] }).then(msg => {
           setTimeout(() => msg.delete(), 15000)
       });
     return client.interaction.editReply({ embeds: [embed] }).then(msg => {

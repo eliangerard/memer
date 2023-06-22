@@ -1,5 +1,4 @@
 const { SlashCommandBuilder } = require('discord.js');
-const { EmbedBuilder } = require("discord.js");
 
 let page;
 let totalPages;
@@ -50,94 +49,18 @@ module.exports = {
     inVoice : false,
     alias : ['q'],
     voiceCommand : ['cola', 'lista'],
-	async executeInteraction(interaction, client) {
-        const queue = await client.distube.getQueue(interaction.guild);
+    queueDependent : true,
+	async execute(client, queue, message, content) {
         page = 0;
-        if(!queue?.songs){
-            const embed = new EmbedBuilder()
-                .setTitle(client.emotes.error+" Error")
-                .setColor("#FF0000")
-                .setDescription("No se está reproduciendo nada")
-                .setTimestamp()
-                .setFooter({ text : 'Memer', iconURL : client.botURL });
-
-            return interaction.editReply( { embeds: [embed] } ).then(msg => {
-                setTimeout(() => msg.delete(), 15000)
-            });
-        }
         totalPages = Math.ceil(queue.songs.length/10);
-        if (!queue) {
-            const embed = new EmbedBuilder()
-                .setTitle(client.emotes.error+" Error")
-                .setColor("#FF0000")
-                .setDescription("No se está reproduciendo nada")
-                .setTimestamp()
-                .setFooter({ text : 'Memer', iconURL : client.botURL });
-
-            return interaction.editReply( { embeds: [embed] } ).then(msg => {
-                setTimeout(() => msg.delete(), 15000)
-            });
-        }        
         updateQueue(queue);
 
-        const embed = new EmbedBuilder()
-            .setTitle(client.emotes.queue+" Cola")
-            .setColor("#FFFFFF")
-            .setDescription(`${header}`)
-            .addFields({ name: "En la lista:", value: `${q}` })
-            .setTimestamp()
-            .setFooter({ text : 'Memer', iconURL : client.botURL });
-
-        interaction.editReply( { embeds: [embed] } ).then(msg => {
-            msg.react('⬅️');
-            msg.react('➡️');
-            msg.react('✅');
-            client.on('messageReactionAdd', handler(reaction, user, msg)); 
-        });
+        return {
+            title: client.emotes.queue+" Cola",
+            description: `${header}`,
+            fields: [{ name: "En la lista:", value: `${q}` }],
+            react: ['⬅️', '➡️', '✅'],
+            handler
+        }
 	},
-    async execute(content, msg, client) {
-        const queue = client.distube.getQueue(msg.guild);
-        page = 0;
-        if(!queue?.songs){
-            const embed = new EmbedBuilder()
-                .setTitle(client.emotes.error+" Error")
-                .setColor("#FF0000")
-                .setDescription("No se está reproduciendo nada")
-                .setTimestamp()
-                .setFooter({ text : 'Memer', iconURL : client.botURL });
-
-            return client.channel.send( { embeds: [embed] } ).then(msg => {
-                setTimeout(() => msg.delete(), 15000)
-            });
-        }
-        totalPages = Math.ceil(queue.songs.length/10);
-        if (!queue) {
-            const embed = new EmbedBuilder()
-                .setTitle(client.emotes.error+" Error")
-                .setColor("#FF0000")
-                .setDescription("No se está reproduciendo nada")
-                .setTimestamp()
-                .setFooter({ text : 'Memer', iconURL : client.botURL });
-
-            return client.channel.send( { embeds: [embed] } ).then(msg => {
-                setTimeout(() => msg.delete(), 15000)
-            });
-        }        
-        updateQueue(queue);
-
-        const embed = new EmbedBuilder()
-            .setTitle(client.emotes.queue+" Cola")
-            .setColor("#FFFFFF")
-            .setDescription(`${header}`)
-            .addFields({ name: "En la lista:", value: `${q}` })
-            .setTimestamp()
-            .setFooter({ text : 'Memer', iconURL : client.botURL });
-
-        client.channel.send( { embeds: [embed] } ).then(msg => {
-            msg.react('⬅️');
-            msg.react('➡️');
-            msg.react('✅');
-            client.on('messageReactionAdd', handler(reaction, user, msg)); 
-        });
-    }
 };
