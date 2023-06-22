@@ -17,7 +17,7 @@ module.exports = {
 			return;
 
 		try {
-			const queue = client.distube.getQueue(interaction.guild);
+			const queue = client.distube.getQueue(message.guild);
 			if (command.queueDependent && !queue) {
 				const embed = new EmbedBuilder()
 					.setTitle(client.emotes.error + " Error")
@@ -26,12 +26,12 @@ module.exports = {
 					.setTimestamp()
 					.setFooter({ text: client.user.username, iconURL: client.botURL });
 
-				return interaction.editReply({ embeds: [embed] }).then(msg => {
+				return message.channel.send({ embeds: [embed] }).then(msg => {
 					setTimeout(() => msg.delete(), 15000)
 				});
 			}
 
-			const { title = null, description = null, fields = [], image = null, thumbnail = null, react = [], handler = null } = await command.execute(client, queue, interaction, params);
+			const { title = null, description = null, fields = [], image = null, thumbnail = null, react = [], handler = null } = await command.execute(client, queue, message, params);
 
 			const embed = new EmbedBuilder()
 				.setTitle(title)
@@ -52,7 +52,7 @@ module.exports = {
 			});
 		} catch (error) {
 			console.error(error);
-			await interaction.editReply({ content: 'Hubo un error con este comando' });
+			await message.channel.send({ content: 'Hubo un error con este comando' });
 		}
 	},
 };
