@@ -13,7 +13,7 @@ module.exports = {
             .setFooter({text:'Memer', iconURL: client.botURL});
 
         if(!client.interaction)
-            return client.channel.send({ embeds: [embed] }).then(msg => {
+            return queue.textChannel.send({ embeds: [embed] }).then(msg => {
                 setTimeout(() => msg.delete(), 15000)
             });
 

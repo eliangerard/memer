@@ -2,7 +2,7 @@ const { EmbedBuilder } = require("discord.js");
 
 module.exports = {
 	name: 'empty',
-	execute(channel, e) {
+	execute(queue) {
         const embed = new EmbedBuilder()
             .setTitle(client.emotes.sad + " Soledad")
             .setColor("#1111EE")
@@ -10,7 +10,7 @@ module.exports = {
             .setTimestamp()
             .setFooter({text: 'Memer', iconURL: client.botURL});
 
-        channel.send({ embeds: [embed] }).then(msg => {
+        queue.textChannel.send({ embeds: [embed] }).then(msg => {
             setTimeout(() => msg.delete(), 15000)
         });
 	},

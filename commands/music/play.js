@@ -1,20 +1,20 @@
 const { SlashCommandBuilder } = require('discord.js');
 
 module.exports = {
-	data: new SlashCommandBuilder()
-		.setName('play')
+    data: new SlashCommandBuilder()
+        .setName('play')
         .setDescription('Reproduce una canción')
         .addStringOption(option => option.setName('canción').setDescription('Lo que quieras reproducir, puede ser una búsqueda o un link').setRequired(true)),
-    inVoice : true,
-    alias : ['p'],
-    voiceCommand : ['reproduce', 'pon'],
-	async executeInteraction(interaction, client) {
-        const song = interaction.options.getString('canción');
-        client.interaction = interaction;
-        return client.distube.play(interaction.member.voice.channel, song, client);
-	},
-    async execute (content, msg, client) {
-        if(content.length == 0) return;
-        return client.distube.play(msg.member.voice.channel, content, client);
+    inVoice: true,
+    alias: ['p'],
+    voiceCommand: ['reproduce', 'pon'],
+    queueDependent: false,
+    async execute(client, queue, message, params) {
+        const [song] = params;
+        if (song.length == 0) return;
+        client.distube.play(message.member.voice.channel, song, { member: message.member, textChannel: message.channel });
+        return {
+            title: `Buscando: ${song}`
+        }
     }
 };
