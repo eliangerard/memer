@@ -56,7 +56,7 @@ module.exports = {
 			await interaction.editReply({ embeds: [embed] }).then(msg => {
 				if (react.length > 0) {
 					react.forEach(emoji => msg.react(emoji))
-					client.on('messageReactionAdd', handler(reaction, user, msg));
+					client.on('messageReactionAdd', handler);
 				}
 			});
 		} catch (error) {
