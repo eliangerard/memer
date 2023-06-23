@@ -6,8 +6,6 @@ module.exports = {
     async execute(message, client) {
         if (!message.content.startsWith(client.config.prefix) || message.author.bot) return;
 
-        setTimeout(() => message.delete(), 15000);
-
         const params = message.content.split(' ');
 
         const commandCalled = params.shift().substring(client.config.prefix.length);
@@ -21,6 +19,8 @@ module.exports = {
 
         if (!command && client.config.prefix.length == 0)
             return;
+
+        setTimeout(() => message.delete(), 15000);
         try {
             if (command.inVoice) {
                 if (message.member.voice.channel === undefined)
