@@ -17,6 +17,7 @@ module.exports = {
             if (!command)
                 return { title: 'Comando no encontrado' };
 
+            console.log(command.data.options[0].choices);
             const fields = [
                 {
                     name: ' ',
@@ -30,11 +31,17 @@ module.exports = {
                     value: '`' + (command.alias ? command.alias.join(', ') : 'N/A') + '`'
                 });
 
+            if (command.data.options[0].choices)
+                fields.push({
+                    name: 'Opciones del comando',
+                    value: '```' + command.data.options[0].choices.map(choice => choice.name).join(', ') + '```'
+                });
+
             if (command.voiceCommand)
                 fields.push({
                     name: 'Comando por voz',
                     value: '`' + command.voiceCommand.join(', ') + '`'
-                })
+                });
 
             return {
                 title: client.config.prefix + command.data.name,
