@@ -6,7 +6,7 @@ module.exports = {
     queue.setVolume(100);
     const embed = new EmbedBuilder()
       .setTitle(client.emotes.play + " Reproduciendo")
-      .setColor("#FFFFFF")
+      .setColor(client.config.accentColor)
       .addFields(
         { name: "Canción: ", value: song.name },
         { name: "Duración: ", value: song.formattedDuration, inline: true },

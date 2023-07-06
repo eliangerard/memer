@@ -6,7 +6,7 @@ module.exports = {
         const embed = new EmbedBuilder()
             .setTitle(client.emotes.success + ` Finished`)
             .setDescription("Cola terminada")
-            .setColor("#FFFFFF")
+            .setColor(client.config.accentColor)
             .setTimestamp()
             .setFooter({text: 'Memer', iconURL: client.botURL});
 
