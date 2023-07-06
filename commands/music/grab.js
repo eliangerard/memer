@@ -8,7 +8,7 @@ module.exports = {
     voiceCommand: ['agarrar', 'grab'],
     queueDependent : true,
     async execute(client, queue, message, content) {
-        message.user.send(queue.songs[0].url);
+        message.author.send(queue.songs[0].url);
         return { title : "Tulún" };
     }
 };

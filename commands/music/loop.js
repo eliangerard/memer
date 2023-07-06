@@ -18,7 +18,7 @@ module.exports = {
     queueDependent : true,
 	async execute(client, queue, message, content) {
         let [mode] = content;
-        mode = queue.setRepeatMode(message.guild, mode);
+        mode = queue.setRepeatMode(mode);
         mode = mode ? mode === 2 ? "Repitiendo la cola" : "Repitiendo la canción" : "Apagado";
         return {
             title: client.emotes.repeat + " Loop",
