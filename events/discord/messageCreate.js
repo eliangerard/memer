@@ -79,7 +79,7 @@ module.exports = {
             .setColor("#FF0000")
             .setDescription("Descripción: " + error)
             .setTimestamp()
-            .setFooter({text:'Memer', iconURL: client.botURL})
+            .setFooter({ text: client.user.username, iconURL: client.botURL });
             await message.reply({ embeds: [embed] });
         }
     },

@@ -60,8 +60,14 @@ module.exports = {
 				}
 			});
 		} catch (error) {
-			console.error(error);
-			await interaction.editReply({ content: 'Hubo un error con este comando' });
-		}
+            console.error(error);
+            const embed = new EmbedBuilder()
+            .setTitle(client.emotes.error + " Error")
+            .setColor("#FF0000")
+            .setDescription("Descripción: " + error)
+            .setTimestamp()
+            .setFooter({ text: client.user.username, iconURL: client.botURL });
+            await interaction.editReply({ embeds: [embed] });
+        }
 	},
 };
