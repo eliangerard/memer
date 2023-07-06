@@ -45,7 +45,7 @@ module.exports = {
 				.setTimestamp()
 				.setFooter({ text: client.user.username, iconURL: client.botURL });
 
-			await queue.textChannel.send({ embeds: [embed] }).then(msg => {
+			await message.channel.send({ embeds: [embed] }).then(msg => {
 				if (react.length > 0) {
 					react.forEach(emoji => msg.react(emoji))
 					client.on('messageReactionAdd', handler(reaction, user, msg));
@@ -54,7 +54,13 @@ module.exports = {
 			});
 		} catch (error) {
 			console.error(error);
-			await message.channel.send({ content: 'Hubo un error con este comando' });
+			const embed = new EmbedBuilder()
+				.setTitle(client.emotes.error + " Error")
+				.setColor("#FF0000")
+				.setDescription("Descripción: " + error)
+				.setTimestamp()
+				.setFooter({ text: 'Memer', iconURL: client.botURL })
+			await message.reply({ embeds: [embed] });
 		}
 	},
 };
