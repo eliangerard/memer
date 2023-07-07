@@ -38,6 +38,9 @@ client.distube = new DisTube(client, {
         new YtDlpPlugin()
     ]
 });
+
+client.timeouts = [];
+
 SpeechOptions = {
     group: client.config.clientId,
     lang: client.config.lang,

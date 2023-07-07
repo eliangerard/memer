@@ -7,7 +7,7 @@ module.exports = {
 
         const embed = new EmbedBuilder()
             .setTitle(client.emotes.success + " Añadiendo")
-            .setColor("#FFFFFF")
+            .setColor(client.config.accentColor)
             .setDescription(`${song.name} - \`${song.formattedDuration}\` | añadida por: ${song.user}`)
             .setTimestamp()
             .setFooter({ text: 'Memer', iconURL: client.botURL });

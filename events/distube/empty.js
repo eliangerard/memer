@@ -5,7 +5,7 @@ module.exports = {
 	execute(queue) {
         const embed = new EmbedBuilder()
             .setTitle(client.emotes.sad + " Soledad")
-            .setColor("#1111EE")
+            .setColor(client.config.accentColor)
             .setDescription("No hay nadie en el canal de voz, saliendo...")
             .setTimestamp()
             .setFooter({text: 'Memer', iconURL: client.botURL});

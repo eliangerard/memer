@@ -5,7 +5,7 @@ module.exports = {
     execute(queue, playlist, client) {
         const embed = EmbedBuilder()
             .setTitle(client.emotes.success + ` Añadiendo \`${playlist.name}\``)
-            .setColor("#FFFFFF")
+            .setColor(client.config.accentColor)
             .setDescription(`¡Playlist añadida!\n${client.distube.status(queue)}`)
             .setTimestamp()
             .setFooter({ text: 'Memer', iconURL: client.botURL })
