@@ -55,7 +55,7 @@ module.exports = {
 				.setTimestamp()
 				.setFooter({ text: client.user.username, iconURL: client.botURL });
 
-			await message.channel.send({ embeds: [embed], components: [actionRows] }).then(msg => {
+			await message.channel.send({ embeds: [embed], components: actionRows }).then(msg => {
 				if (react.length > 0) {
                     const newHandler = (reaction, user) => handler(reaction, user, msg, queue, client, newHandler);
                     react.forEach(emoji => msg.react(emoji))
@@ -80,7 +80,7 @@ module.exports = {
 				.setDescription("Descripción: " + error)
 				.setTimestamp()
 				.setFooter({ text: 'Memer', iconURL: client.botURL })
-			await message.reply({ embeds: [embed] });
+			await message.channel.send({ embeds: [embed] });
 		}
 	},
 };
