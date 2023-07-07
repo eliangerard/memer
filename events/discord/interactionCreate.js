@@ -7,7 +7,7 @@ module.exports = {
 		if (interaction.isChatInputCommand()) 
 			return executeChatInputCommand(interaction, client);
 
-		if (interaction.isSelectMenu())
+		if (interaction.isStringSelectMenu())
 			return executeStringDropdown(interaction, client);
 		
 		if (interaction.isButton())
