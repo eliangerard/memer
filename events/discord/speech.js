@@ -5,8 +5,8 @@ module.exports = {
 	once: false,
 	async execute(message, client) {
 		const user = message.author.username + message.author.discriminator;
-		console.log(`${user}: ${message.content}`);
 		if (!message.content) return;
+		console.log(`${user}: ${message.content}`);
 		message.content = message.content.toLowerCase();
 		const params = message.content.split(' ');
 		if (!client.config.voicePrefix.includes(params.shift()))
