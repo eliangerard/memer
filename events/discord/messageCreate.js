@@ -51,7 +51,18 @@ module.exports = {
                 });
             }
 
-            const { title = null, description = null, fields = [], image = null, thumbnail = null, react = [], handler = null } = await command.execute(client, queue, message, params);
+
+            const {
+                title = null,
+                description = null,
+                fields = [],
+                image = null,
+                thumbnail = null,
+                react = [],
+                handler = null,
+                actionRows = null,
+                resetTimeout = false
+            } = await command.execute(client, queue, message, params);
 
             console.log({ text: client.user.username, iconURL: client.botURL, handler });
             const embed = new EmbedBuilder()
@@ -64,22 +75,31 @@ module.exports = {
                 .setTimestamp()
                 .setFooter({ text: client.user.username, iconURL: client.botURL });
 
-            await message.reply({ embeds: [embed] }).then(msg => {
+            await message.reply({ embeds: [embed], components: actionRows }).then(msg => {
                 if (react.length > 0) {
-                    const newHandler = ( reaction, user) => handler(reaction, user, msg, queue, client, newHandler);
+                    const newHandler = (reaction, user) => handler(reaction, user, msg, queue, client, newHandler);
                     react.forEach(emoji => msg.react(emoji))
                     client.on('messageReactionAdd', newHandler);
                 }
-                else setTimeout(() => msg.delete(), 15000);
+                else {
+                    if (resetTimeout) {
+                        const timeout = setTimeout(() => msg.delete(), 20000);
+                        client.timeouts[msg.id] = {
+                            timeout,
+                            msg
+                        };
+                    }
+                    setTimeout(() => msg.delete(), 15000);
+                }
             });
         } catch (error) {
             console.error(error);
             const embed = new EmbedBuilder()
-            .setTitle(client.emotes.error + " Error")
-            .setColor("#FF0000")
-            .setDescription("Descripción: " + error)
-            .setTimestamp()
-            .setFooter({ text: client.user.username, iconURL: client.botURL });
+                .setTitle(client.emotes.error + " Error")
+                .setColor("#FF0000")
+                .setDescription("Descripción: " + error)
+                .setTimestamp()
+                .setFooter({ text: client.user.username, iconURL: client.botURL });
             await message.reply({ embeds: [embed] });
         }
     },
