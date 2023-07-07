@@ -33,7 +33,6 @@ const executeButtonCommand = async (button, client) => {
 
         const { title = null, description = null, fields = [], image = null, thumbnail = null, react = [], handler = null } = await command.execute(client, queue, button, params);
 
-        console.log({ text: client.user.username, iconURL: client.botURL });
         const embed = new EmbedBuilder()
             .setTitle(title)
             .setColor(client.config.accentColor)

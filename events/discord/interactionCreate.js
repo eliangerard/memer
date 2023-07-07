@@ -3,7 +3,6 @@ module.exports = {
 	name: 'interactionCreate',
 	once: false,
 	async execute(interaction, client) {
-		console.log(interaction);
 		if (interaction.isChatInputCommand()) 
 			return executeChatInputCommand(interaction, client);
 

@@ -64,7 +64,6 @@ module.exports = {
                 resetTimeout = false
             } = await command.execute(client, queue, message, params);
 
-            console.log({ text: client.user.username, iconURL: client.botURL, handler });
             const embed = new EmbedBuilder()
                 .setTitle(title)
                 .setColor(client.config.accentColor)

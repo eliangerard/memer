@@ -48,7 +48,6 @@ const executeChatInputCommand = async (interaction, client) => {
             resetTimeout = false
         } = await command.execute(client, queue, interaction, params);
 
-        console.log({ text: client.user.username, iconURL: client.botURL });
         const embed = new EmbedBuilder()
             .setTitle(title)
             .setColor(client.config.accentColor)
