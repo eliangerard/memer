@@ -27,10 +27,13 @@ module.exports = {
                     return message.reply('No estás en un canal de voz').then(msg => {
                         setTimeout(() => msg.delete(), 15000)
                     });
-                if (command.inVoice && message.member.voice.channel !== message.guild.members.me.voice.channel)
-                    return message.reply('No estás en un canal de voz').then(msg => {
+                if (command.inVoice && message.member.voice.channel.id !== message.guild.members.me.voice.channel.id) {
+                    
+                    return message.reply('No estás en el mismo canal de voz').then(msg => {
                         setTimeout(() => msg.delete(), 15000)
                     });
+
+                }
                 let voiceConnection;
 
                 if (!message.guild.members.me.voice.channel)
