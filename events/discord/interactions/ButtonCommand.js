@@ -11,7 +11,7 @@ const executeButtonCommand = async (button, client) => {
     const command = client.commands.get(button.customId);
 
     try {
-        if (command.inVoice && button.member.voice.channel === undefined)
+        if (command.inVoice && (button.member.voice.channel === undefined || button.guild.members.me.voice.channel !== button.member.voice.channel))
             return;
 
         const queue = client.distube.getQueue(button.guild);
