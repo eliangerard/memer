@@ -10,6 +10,8 @@ const executeChatInputCommand = async (interaction, client) => {
         if (command.inVoice) {
             if (interaction.member.voice.channel === undefined)
                 return interaction.editReply({ content: 'No estás en un canal de voz', ephemeral: true });
+            if (command.inVoice && interaction.member.voice.channel && message.guild.members.me.voice.channel && interaction.member.voice.channel.id !== interaction.guild.members.me.voice.channel.id)
+                return interaction.editReply({ content: 'No estás en el mismo canal de voz', ephemeral: true });
             let voiceConnection;
 
             if (!interaction.guild.members.me.voice.channel)

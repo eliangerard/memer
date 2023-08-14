@@ -20,13 +20,22 @@ module.exports = {
         if (!command && client.config.prefix.length == 0)
             return;
 
-        setTimeout(() => message.delete(), 15000);
+        if (!!command.deleteInvocation)
+            setTimeout(() => message.delete(), 15000);
+
         try {
             if (command.inVoice) {
                 if (message.member.voice.channel === undefined)
                     return message.reply('No estás en un canal de voz').then(msg => {
                         setTimeout(() => msg.delete(), 15000)
                     });
+                if (command.inVoice && message.member.voice.channel && message.guild.members.me.voice.channel && message.member.voice.channel.id !== message.guild.members.me.voice.channel.id) {
+                    console.log(message.guild.members.me.voice.channel);
+                    return message.reply('No estás en el mismo canal de voz').then(msg => {
+                        setTimeout(() => msg.delete(), 15000)
+                    });
+
+                }
                 let voiceConnection;
 
                 if (!message.guild.members.me.voice.channel)
@@ -61,8 +70,14 @@ module.exports = {
                 react = [],
                 handler = null,
                 actionRows = null,
-                resetTimeout = false
+                resetTimeout = false,
+                reply = true,
+                deleteResponse = false,
+                content = null
             } = await command.execute(client, queue, message, params);
+
+            if(!!content)
+                return await message.channel.send(content);
 
             const embed = new EmbedBuilder()
                 .setTitle(title)
@@ -74,23 +89,44 @@ module.exports = {
                 .setTimestamp()
                 .setFooter({ text: client.user.username, iconURL: client.botURL });
 
-            await message.reply({ embeds: [embed], components: actionRows }).then(msg => {
-                if (react.length > 0) {
-                    const newHandler = (reaction, user) => handler(reaction, user, msg, queue, client, newHandler);
-                    react.forEach(emoji => msg.react(emoji))
-                    client.on('messageReactionAdd', newHandler);
-                }
-                else {
-                    if (resetTimeout) {
-                        const timeout = setTimeout(() => msg.delete(), 20000);
-                        client.timeouts[msg.id] = {
-                            timeout,
-                            msg
-                        };
+            if (reply)
+                await message.reply({ embeds: [embed], components: actionRows }).then(msg => {
+                    if (react.length > 0) {
+                        const newHandler = (reaction, user) => handler(reaction, user, msg, queue, client, newHandler);
+                        react.forEach(emoji => msg.react(emoji))
+                        client.on('messageReactionAdd', newHandler);
                     }
-                    setTimeout(() => msg.delete(), 15000);
-                }
-            });
+                    else {
+                        if (resetTimeout) {
+                            const timeout = setTimeout(() => msg.delete(), 20000);
+                            client.timeouts[msg.id] = {
+                                timeout,
+                                msg
+                            };
+                        }
+                        if (deleteResponse)
+                            setTimeout(() => msg.delete(), 15000);
+                    }
+                });
+            else {
+                await message.channel.send({ embeds: [embed], components: actionRows }).then(msg => {
+                    if (react.length > 0) {
+                        const newHandler = (reaction, user) => handler(reaction, user, msg, queue, client, newHandler);
+                        react.forEach(emoji => msg.react(emoji))
+                        client.on('messageReactionAdd', newHandler);
+                    }
+                    else {
+                        if (resetTimeout) {
+                            const timeout = setTimeout(() => msg.delete(), 20000);
+                            client.timeouts[msg.id] = {
+                                timeout,
+                                msg
+                            };
+                        }
+                        setTimeout(() => msg.delete(), 15000);
+                    }
+                });
+            }
         } catch (error) {
             console.error(error);
             const embed = new EmbedBuilder()

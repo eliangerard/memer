@@ -5,6 +5,7 @@
     "botURL": "https://cdn.discordapp.com/avatars/xxxxxxxxxxxxx/xxxxxxxxxxxxxxx.png",
     "accentColor" : "#c8f0dc",
     "voicePrefix" : ["m", "meme", "memer", "memes"],
+    "bingCookie" : "YOUR_'_U'_BING_COOKIE",
     "emoji": {
         "play": "▶️",
         "stop": "⏹️",
