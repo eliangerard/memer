@@ -37,11 +37,19 @@ module.exports = {
             redirect: 'manual'
         };
 
-        const { choices } = await fetch("https://chimeragpt.adventblocks.cc/api/v1/chat/completions", requestOptions)
+        const gptMessages = await fetch("https://chimeragpt.adventblocks.cc/api/v1/chat/completions", requestOptions)
             .then(response => response.json())
 
+        if(gptMessages.detail) {
+            return {
+                content: gptMessages.detail,
+                reply: false,
+                deleteResponse: false,
+            }
+        }
+
         return {
-            content: choices[0].message.content,
+            content: gptMessages.choices[0].message.content,
             reply: false,
             deleteResponse: false,
         }
