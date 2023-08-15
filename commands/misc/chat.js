@@ -8,23 +8,40 @@ module.exports = {
     deleteInvocation: false,
     voiceCommand: ['chat', 'busca'],
     async execute(client, queue, message, content) {
-        const { BingChat } = await import('bing-chat')
-
-        console.log(message);
-        console.log(content);
 
         const text = content.join(' ');
-        if (!text) return { title: client.emotes.error + " No has escrito nada" }
 
-        const api = new BingChat({
-            cookie: client.config.bingCookie
-        })
+        let myHeaders = new Headers();
+        myHeaders.append("Authorization", "Bearer " + client.config.chimeraToken);
+        myHeaders.append("Content-Type", "application/json");
 
-        const res = await api.sendMessage(text)
-        console.log(res.text)
+        let raw = JSON.stringify({
+            "model": "gpt-4",
+            "max_tokens": 2000,
+            "messages": [
+                {
+                    "role": "system",
+                    "content": "Eres un miembro de un canal de discord llamado MEMZ"
+                },
+                {
+                    "role": "user",
+                    "content": text
+                }
+            ]
+        });
+
+        let requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'manual'
+        };
+
+        const { choices } = await fetch("https://chimeragpt.adventblocks.cc/api/v1/chat/completions", requestOptions)
+            .then(response => response.json())
 
         return {
-            content: res.text,
+            content: choices[0].message.content,
             reply: false,
             deleteResponse: false,
         }
