@@ -20,7 +20,7 @@ module.exports = {
         if (!command && client.config.prefix.length == 0)
             return;
 
-        if (!!command.deleteInvocation)
+        if (!!command.deleteInvocation || command.deleteInvocation === undefined)
             setTimeout(() => message.delete(), 15000);
 
         try {
