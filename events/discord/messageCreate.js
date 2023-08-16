@@ -72,7 +72,7 @@ module.exports = {
                 actionRows = null,
                 resetTimeout = false,
                 reply = true,
-                deleteResponse = false,
+                deleteResponse = true,
                 content = null
             } = await command.execute(client, queue, message, params);
 
