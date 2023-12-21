@@ -45,10 +45,15 @@ const executeChatInputCommand = async (interaction, client) => {
             image = null,
             thumbnail = null,
             react = [],
-            handler = null, 
+            handler = null,
             actionRows = null,
-            resetTimeout = false
+            resetTimeout = false,
+            content = null
         } = await command.execute(client, queue, interaction, params);
+
+        if (!!content)
+            return await message.channel.send(content);
+
 
         const embed = new EmbedBuilder()
             .setTitle(title)
@@ -66,7 +71,7 @@ const executeChatInputCommand = async (interaction, client) => {
                 client.on('messageReactionAdd', handler);
             }
             else {
-                if( resetTimeout ) {
+                if (resetTimeout) {
                     const timeout = setTimeout(() => msg.delete(), 20000);
                     client.timeouts[msg.id] = {
                         timeout,
