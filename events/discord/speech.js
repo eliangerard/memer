@@ -27,7 +27,7 @@ module.exports = {
 					.setColor("#FF0000")
 					.setDescription("No se está reproduciendo nada")
 					.setTimestamp()
-					.setFooter({ text: client.user.username, iconURL: client.botURL });
+					.setFooter({ text: client.user.username, iconURL: client.botURL ? client.botURL : client.user.avatarURL() });
 
 				return message.channel.send({ embeds: [embed] }).then(msg => {
 					setTimeout(() => msg.delete(), 15000)

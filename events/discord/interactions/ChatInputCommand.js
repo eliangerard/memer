@@ -29,7 +29,7 @@ const executeChatInputCommand = async (interaction, client) => {
                 .setColor("#FF0000")
                 .setDescription("No se está reproduciendo nada")
                 .setTimestamp()
-                .setFooter({ text: client.user.username, iconURL: client.botURL });
+                .setFooter({ text: client.user.username, iconURL: client.botURL ? client.botURL : client.user.avatarURL() });
 
             return interaction.editReply({ embeds: [embed] }).then(msg => {
                 setTimeout(() => msg.delete(), 15000)

@@ -4,7 +4,7 @@
     "lang": "es-MX",
     "cohereToken": "COHERE_TOKEN",
     "cohereInstruction": "YOU ARE A BOT",
-    "botURL": "https://cdn.discordapp.com/avatars/xxxxxxxxxxxxx/xxxxxxxxxxxxxxx.png",
+    "botURL": "https://cdn.discordapp.com/avatars/xxxxxxxxxxxxx/xxxxxxxxxxxxxxx.png | if not getting default display avatar url",
     "accentColor" : "#c8f0dc",
     "voicePrefix" : ["m", "meme", "memer", "memes"],
     "chimeraToken" : "----",
