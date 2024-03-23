@@ -1,3 +1,4 @@
+const { CohereClient } = require('cohere-ai');
 const { SlashCommandBuilder } = require('discord.js');
 
 module.exports = {
@@ -6,52 +7,25 @@ module.exports = {
         .setDescription('Chatea con Memer'),
     inVoice: false,
     deleteInvocation: false,
-    voiceCommand: ['chat', 'busca'],
+    voiceCommand: ['chat', 'busca', 'dime'],
     async execute(client, queue, message, content) {
-
-        const text = content.join(' ');
-
-        let myHeaders = new Headers();
-        myHeaders.append("Authorization", "Bearer " + client.config.chimeraToken);
-        myHeaders.append("Content-Type", "application/json");
-
-        let raw = JSON.stringify({
-            "model": "gpt-4",
-            "max_tokens": 2000,
-            "messages": [
-                {
-                    "role": "system",
-                    "content": "Eres un miembro de un canal de discord llamado MEMZ"
-                },
-                {
-                    "role": "user",
-                    "content": text
-                }
-            ]
+        const cohere = new CohereClient({
+            token: client.config.cohereToken, // This is your trial API key
         });
 
-        let requestOptions = {
-            method: 'POST',
-            headers: myHeaders,
-            body: raw,
-            redirect: 'manual'
-        };
-
-        const gptMessages = await fetch("https://chimeragpt.adventblocks.cc/api/v1/chat/completions", requestOptions)
-            .then(response => response.json())
-
-        if(gptMessages.detail) {
-            return {
-                content: gptMessages.detail,
-                reply: false,
-                deleteResponse: false,
-            }
-        }
-
+        const text = content.join(' ');
+        const response = await cohere.generate({
+            model: "command",
+            prompt: `*${client.config.cohereInstruction}* ${text}`,
+            maxTokens: 1000,
+            temperature: 0.3,
+            k: 0,
+            stopSequences: [],
+            returnLikelihoods: "NONE"
+        });
+        console.log(response);
         return {
-            content: gptMessages.choices[0].message.content,
-            reply: false,
-            deleteResponse: false,
-        }
+            content : response.generations[0].text
+        };
     },
 };

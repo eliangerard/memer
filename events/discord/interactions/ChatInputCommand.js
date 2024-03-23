@@ -10,7 +10,7 @@ const executeChatInputCommand = async (interaction, client) => {
         if (command.inVoice) {
             if (interaction.member.voice.channel === undefined)
                 return interaction.editReply({ content: 'No estás en un canal de voz', ephemeral: true });
-            if (command.inVoice && interaction.member.voice.channel && message.guild.members.me.voice.channel && interaction.member.voice.channel.id !== interaction.guild.members.me.voice.channel.id)
+            if (command.inVoice && interaction.member.voice.channel && interaction.guild.members.me.voice.channel && interaction.member.voice.channel.id !== interaction.guild.members.me.voice.channel.id)
                 return interaction.editReply({ content: 'No estás en el mismo canal de voz', ephemeral: true });
             let voiceConnection;
 
@@ -29,7 +29,7 @@ const executeChatInputCommand = async (interaction, client) => {
                 .setColor("#FF0000")
                 .setDescription("No se está reproduciendo nada")
                 .setTimestamp()
-                .setFooter({ text: client.user.username, iconURL: client.botURL });
+                .setFooter({ text: client.user.username, iconURL: client.botURL ? client.botURL : client.user.avatarURL() });
 
             return interaction.editReply({ embeds: [embed] }).then(msg => {
                 setTimeout(() => msg.delete(), 15000)
@@ -45,10 +45,15 @@ const executeChatInputCommand = async (interaction, client) => {
             image = null,
             thumbnail = null,
             react = [],
-            handler = null, 
+            handler = null,
             actionRows = null,
-            resetTimeout = false
+            resetTimeout = false,
+            content = null
         } = await command.execute(client, queue, interaction, params);
+
+        if (!!content)
+            return await message.channel.send(content);
+
 
         const embed = new EmbedBuilder()
             .setTitle(title)
@@ -66,7 +71,7 @@ const executeChatInputCommand = async (interaction, client) => {
                 client.on('messageReactionAdd', handler);
             }
             else {
-                if( resetTimeout ) {
+                if (resetTimeout) {
                     const timeout = setTimeout(() => msg.delete(), 20000);
                     client.timeouts[msg.id] = {
                         timeout,

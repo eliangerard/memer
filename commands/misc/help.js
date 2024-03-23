@@ -16,8 +16,7 @@ module.exports = {
                 command = client.commands.find(cmd => cmd.alias && cmd.alias.includes(commandResolvable));
             if (!command)
                 return { title: 'Comando no encontrado' };
-
-            console.log(command.data.options[0].choices);
+            
             const fields = [
                 {
                     name: ' ',
@@ -31,7 +30,7 @@ module.exports = {
                     value: '`' + (command.alias ? command.alias.join(', ') : 'N/A') + '`'
                 });
 
-            if (command.data.options[0].choices)
+            if (command.data.options[0]?.choices)
                 fields.push({
                     name: 'Opciones del comando',
                     value: '```' + command.data.options[0].choices.map(choice => choice.name).join(', ') + '```'

@@ -1,5 +1,6 @@
+const { createAudioPlayer, createAudioResource, getVoiceConnection, AudioPlayerStatus } = require('@discordjs/voice');
 const { EmbedBuilder } = require('discord.js');
-
+const { createAudioFile } = require('simple-tts-mp3');
 module.exports = {
 	name: 'speech',
 	once: false,
@@ -26,7 +27,7 @@ module.exports = {
 					.setColor("#FF0000")
 					.setDescription("No se está reproduciendo nada")
 					.setTimestamp()
-					.setFooter({ text: client.user.username, iconURL: client.botURL });
+					.setFooter({ text: client.user.username, iconURL: client.botURL ? client.botURL : client.user.avatarURL() });
 
 				return message.channel.send({ embeds: [embed] }).then(msg => {
 					setTimeout(() => msg.delete(), 15000)
@@ -34,16 +35,33 @@ module.exports = {
 			}
 
 			const {
-                title = null,
-                description = null,
-                fields = [],
-                image = null,
-                thumbnail = null,
-                react = [],
-                handler = null,
-                actionRows = null,
-                resetTimeout = false
-            } = await command.execute(client, queue, message, params);
+				title = null,
+				description = null,
+				fields = [],
+				image = null,
+				thumbnail = null,
+				react = [],
+				handler = null,
+				actionRows = null,
+				resetTimeout = false,
+				content = false
+			} = await command.execute(client, queue, message, params);
+
+			if (!!content) {
+				const distubePlayer = client.distube.voices.get(message.guild.id).audioPlayer;
+				const voiceChannel = getVoiceConnection(message.guild.id, client.config.clientId);
+
+				await createAudioFile(content, '../../tts', 'es');
+				const player = createAudioPlayer();
+				const resource = createAudioResource('../../tts.mp3');
+				player.play(resource);
+				voiceChannel.subscribe(player);
+				player.on(AudioPlayerStatus.Idle, () => {
+					player.stop();
+					voiceChannel.subscribe(distubePlayer);
+				});
+				return;
+			}
 
 			const embed = new EmbedBuilder()
 				.setTitle(title)
@@ -57,12 +75,12 @@ module.exports = {
 
 			await message.channel.send({ embeds: [embed], components: actionRows }).then(msg => {
 				if (react.length > 0) {
-                    const newHandler = (reaction, user) => handler(reaction, user, msg, queue, client, newHandler);
-                    react.forEach(emoji => msg.react(emoji))
-                    client.on('messageReactionAdd', newHandler);
-                }
+					const newHandler = (reaction, user) => handler(reaction, user, msg, queue, client, newHandler);
+					react.forEach(emoji => msg.react(emoji))
+					client.on('messageReactionAdd', newHandler);
+				}
 				else {
-					if( resetTimeout ) {
+					if (resetTimeout) {
 						const timeout = setTimeout(() => msg.delete(), 20000);
 						client.timeouts[msg.id] = {
 							timeout,

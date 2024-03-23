@@ -87,7 +87,7 @@ module.exports = {
                 .setImage(image)
                 .setThumbnail(thumbnail)
                 .setTimestamp()
-                .setFooter({ text: client.user.username, iconURL: client.botURL });
+                .setFooter({ text: client.user.username, iconURL: client.botURL ? client.botURL : client.user.avatarURL() });
 
             if (reply)
                 await message.reply({ embeds: [embed], components: actionRows }).then(msg => {

@@ -2,7 +2,9 @@
     "clientId" : "DISCORD_CLIENT_ID",
     "token": "DISCORD_TOKEN",
     "lang": "es-MX",
-    "botURL": "https://cdn.discordapp.com/avatars/xxxxxxxxxxxxx/xxxxxxxxxxxxxxx.png",
+    "cohereToken": "COHERE_TOKEN",
+    "cohereInstruction": "YOU ARE A BOT",
+    "botURL": "https://cdn.discordapp.com/avatars/xxxxxxxxxxxxx/xxxxxxxxxxxxxxx.png | if not getting default display avatar url",
     "accentColor" : "#c8f0dc",
     "voicePrefix" : ["m", "meme", "memer", "memes"],
     "chimeraToken" : "----",
@@ -16,10 +18,10 @@
         "map": "🗺️",
 	    "sad": "😢"
     },
-    "presence":{
-        "activity":"I'm ready!",
-        "type": "STREAMING",
-        "url": "https://www.twitch.tv/"
+    "activity":{
+        "name": "Streaming",
+        "state": "Úsame con !help",
+        "type": 4
     },
     "prefix" : "!"
 }
