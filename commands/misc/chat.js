@@ -15,7 +15,7 @@ module.exports = {
 
         const text = content.join(' ');
         const response = await cohere.generate({
-            model: "command",
+            model: client.config.cohereModel,
             prompt: `*${client.config.cohereInstruction}* ${text}`,
             maxTokens: 1000,
             temperature: 0.3,
