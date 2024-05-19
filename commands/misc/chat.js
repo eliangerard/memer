@@ -14,18 +14,15 @@ module.exports = {
         });
 
         const text = content.join(' ');
-        const response = await cohere.generate({
-            model: "command",
-            prompt: `*${client.config.cohereInstruction}* ${text}`,
-            maxTokens: 1000,
+        const response = await cohere.chat({
+            model: client.config.cohereModel,
+            message: text,
             temperature: 0.3,
-            k: 0,
-            stopSequences: [],
-            returnLikelihoods: "NONE"
+            connectors:[{"id": "web-search"}],
         });
         console.log(response);
         return {
-            content : response.generations[0].text
+            content : response.chatHistory[1].message
         };
     },
 };

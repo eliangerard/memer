@@ -51,9 +51,9 @@ module.exports = {
 				const distubePlayer = client.distube.voices.get(message.guild.id).audioPlayer;
 				const voiceChannel = getVoiceConnection(message.guild.id, client.config.clientId);
 
-				await createAudioFile(content, '../../tts', 'es');
+				await createAudioFile(content, './tts', 'es');
 				const player = createAudioPlayer();
-				const resource = createAudioResource('../../tts.mp3');
+				const resource = createAudioResource('./tts.mp3');
 				player.play(resource);
 				voiceChannel.subscribe(player);
 				player.on(AudioPlayerStatus.Idle, () => {

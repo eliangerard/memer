@@ -18,7 +18,8 @@
     "simple-tts-mp3": "^1.1.0"
   },
   "scripts": {
-    "test": "test"
+    "test": "test",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
