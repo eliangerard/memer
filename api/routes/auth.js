@@ -148,6 +148,7 @@ auth.post('/spotify', verifySession, async (req, res) => {
 })
 
 auth.post('/spotify/refresh', verifySession, async (req, res) => {
+    console.log("REF",req.headers);
     const refresh = req.headers.s_authorization.split(' ')[1];
 
     console.log("Refresh:",refresh);
