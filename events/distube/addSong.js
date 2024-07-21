@@ -1,10 +1,12 @@
 const { EmbedBuilder } = require("discord.js");
+const { io } = require("../socket");
 
 module.exports = {
     name: 'addSong',
     execute(queue, song, client) {
         if (queue.songs.length == 0) return;
 
+        io.emit('queueUpdate', queue.songs);
         const embed = new EmbedBuilder()
             .setTitle(client.emotes.success + " Añadiendo")
             .setColor(client.config.accentColor)

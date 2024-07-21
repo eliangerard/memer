@@ -1,9 +1,12 @@
 const { EmbedBuilder } = require("discord.js");
+const { io } = require("../socket");
 
 module.exports = {
     name: 'addList',
     execute(queue, playlist, client) {
-        const embed = EmbedBuilder()
+
+        io.emit('queueUpdate', queue.songs);
+        const embed = new EmbedBuilder()
             .setTitle(client.emotes.success + ` Añadiendo \`${playlist.name}\``)
             .setColor(client.config.accentColor)
             .setDescription(`¡Playlist añadida!\n${client.distube.status(queue)}`)

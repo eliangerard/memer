@@ -11,7 +11,6 @@ module.exports = {
                 .setRequired(true)),
     inVoice: false,
     alias: ['av', 'foto', 'pic'],
-    voiceCommand: ['salte', 'desconéctate'],
     async execute(client, queue, message, params) {
         console.log(params);
         const user = await message.guild.members.fetch(params[0].substring(params[0].indexOf('@') + 1, params[0].indexOf('>')));

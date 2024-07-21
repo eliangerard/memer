@@ -43,7 +43,7 @@ module.exports = {
                 else
                     voiceConnection = await client.distube.voices.get(message.member.voice.channel);
 
-                voiceConnection.setSelfDeaf(false);
+                voiceConnection?.setSelfDeaf(false);
             }
 
             const queue = client.distube.getQueue(message.guild);

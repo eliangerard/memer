@@ -1,8 +1,12 @@
 const { EmbedBuilder } = require("discord.js");
+const { client } = require("../../services/client");
+const { io } = require("../socket");
 
 module.exports = {
 	name: 'empty',
 	execute(queue) {
+        
+        io.emit('queueUpdate', queue.songs);
         const embed = new EmbedBuilder()
             .setTitle(client.emotes.sad + " Soledad")
             .setColor(client.config.accentColor)

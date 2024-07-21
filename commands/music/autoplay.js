@@ -10,7 +10,7 @@ module.exports = {
     voiceCommand: ['autoplay', 'auto'],
     queueDependent: true,
     async execute(client, queue, message, content) {
-        const autoplay = queue.toggleAutoplay();
+        const autoplay = queue?.toggleAutoplay();
         return {
             title : client.emotes.success + " AutoPlay",
             description : `Estado: \`${autoplay ? "Encendido" : "Apagado"}\``
