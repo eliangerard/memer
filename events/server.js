@@ -49,12 +49,17 @@ router.post('/command', verifySession, async (req, res) => {
         }
         let voiceConnection;
 
-        if (!message.guild.members.me.voice.channel)
-            voiceConnection = await client.distube.voices.join(message.member.voice.channel);
-        else
-            voiceConnection = await client.distube.voices.get(message.member.voice.channel);
-
-        voiceConnection?.setSelfDeaf(false);
+        try {
+            if (!message.guild.members.me.voice.channel)
+                voiceConnection = await client.distube.voices.join(message.member.voice.channel);
+            else
+                voiceConnection = await client.distube.voices.get(message.member.voice.channel);
+    
+            voiceConnection?.setSelfDeaf(false);
+        } catch (error) {
+            console.log(error);
+            return res.send('No se pudo conectar al canal de voz');
+        }
     }
 
     const {
