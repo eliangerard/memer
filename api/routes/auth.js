@@ -64,13 +64,16 @@ auth.post('/login', async (req, res) => {
         }
     })
 
-    const { id } = await meResponse.json();
+    const me = await meResponse.json();
+    const { id } = me;
     if(!id) return res.status(401).send({message: 'Unauthorized'});
     const savedUser = await User.findOne({
         discordId: id
     })
     console.log("IID",id);
-    const user = await client.users.fetch(id);
+    const svUser = await client.users.fetch(id);
+    const user = { ...me, ...svUser };
+    
     json.spotifyRefresh = savedUser?.spotifyRefresh;
 
     if (!savedUser?.spotifyRefresh) {
