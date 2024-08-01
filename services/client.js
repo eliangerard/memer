@@ -30,7 +30,9 @@ client.distube = new DisTube(client, {
     emitAddSongWhenCreatingQueue: false,
     emitAddListWhenCreatingQueue: false,
     plugins: [
-        new YouTubePlugin(),
+        new YouTubePlugin({
+            cookies: client.config.youtubeCookies,
+        }),
         new YtDlpPlugin(),
         new SpotifyPlugin({
             api: {
