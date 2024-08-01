@@ -3,10 +3,13 @@ const path = require('node:path');
 const { DisTube } = require('distube');
 const { SpotifyPlugin } = require("@distube/spotify");
 const { SoundCloudPlugin } = require('@distube/soundcloud')
+const { YouTubePlugin } = require("@distube/youtube");
+const { DeezerPlugin } = require("@distube/deezer");
+const { DirectLinkPlugin } = require("@distube/direct-link");
 const { YtDlpPlugin } = require('@distube/yt-dlp')
 const { Client, Collection, GatewayIntentBits } = require('discord.js');
 const { addSpeechEvent } = require("discord-speech-recognition");
-
+const { AppleMusicPlugin } = require("distube-apple-music");
 const client = new Client({
     intents: [
         GatewayIntentBits.Guilds, 
@@ -23,21 +26,24 @@ client.botURL = client.config.botURL;
 client.emotes = client.config.emoji
 
 client.distube = new DisTube(client, {
-    leaveOnStop: false,
     emitNewSongOnly: true,
     emitAddSongWhenCreatingQueue: false,
     emitAddListWhenCreatingQueue: false,
     plugins: [
+        new YouTubePlugin(),
+        new YtDlpPlugin(),
         new SpotifyPlugin({
-            parallel: true,
-            emitEventsAfterFetching: false,
             api: {
                 clientId: client.config.spotifyClientID,
                 clientSecret: client.config.spotifyClientSecret,
+                topTracksCountry: "MX",
             },
         }),
         new SoundCloudPlugin(),
-        new YtDlpPlugin()
+        new AppleMusicPlugin(),
+        new DeezerPlugin(),
+        new DirectLinkPlugin(),
+
     ]
 });
 

@@ -6,7 +6,9 @@ module.exports = {
 	async execute(queue, song, client) {
 		queue.setVolume(100);
 
-		io.emit('queueUpdate', queue.songs);
+		console.log(queue.songs);
+
+		io.emit('queueUpdate', queue.songs.map(s => s.plugin = undefined));
 		const buttons = [
 			new ButtonBuilder()
 				.setCustomId('previous')
