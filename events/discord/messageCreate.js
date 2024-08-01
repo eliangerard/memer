@@ -9,10 +9,10 @@ module.exports = {
         const params = message.content.split(' ');
 
         const commandCalled = params.shift().substring(client.config.prefix.length);
-        let command = client.commands.get(commandCalled);
+        let command = client.commands.get(commandCalled.toLowerCase());
 
         if (!command)
-            command = client.commands.find(cmd => cmd.alias && cmd.alias.includes(commandCalled));
+            command = client.commands.find(cmd => cmd.alias && cmd.alias.includes(commandCalled.toLowerCase()));
 
         if (!command && client.config.prefix.length > 0)
             return message.reply("No hay comando de esos");
