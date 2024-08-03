@@ -11,7 +11,6 @@ module.exports = {
     queueDependent : true,
     async execute(client, queue, message, content) {
 
-        console.log("MOviendo");
         const [from, to] = content;
 
         if (from < 1 || from > queue.songs.length || to < 1 || to > queue.songs.length) {
