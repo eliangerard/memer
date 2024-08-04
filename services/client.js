@@ -33,7 +33,6 @@ client.distube = new DisTube(client, {
         new YouTubePlugin({
             cookies: client.config.youtubeCookies,
         }),
-        new YtDlpPlugin(),
         new SpotifyPlugin({
             api: {
                 clientId: client.config.spotifyClientID,
@@ -45,6 +44,7 @@ client.distube = new DisTube(client, {
         new AppleMusicPlugin(),
         new DeezerPlugin(),
         new DirectLinkPlugin(),
+        new YtDlpPlugin(),
 
     ]
 });
