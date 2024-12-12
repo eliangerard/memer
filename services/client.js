@@ -30,7 +30,6 @@ client.distube = new DisTube(client, {
     emitAddSongWhenCreatingQueue: false,
     emitAddListWhenCreatingQueue: false,
     plugins: [
-        new SoundCloudPlugin(),
         new YouTubePlugin({
             cookies: client.config.youtubeCookies,
         }),
@@ -41,6 +40,7 @@ client.distube = new DisTube(client, {
                 topTracksCountry: "MX",
             },
         }),
+        new SoundCloudPlugin(),
         new AppleMusicPlugin(),
         new DeezerPlugin(),
         new DirectLinkPlugin(),
