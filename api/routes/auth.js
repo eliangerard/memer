@@ -84,6 +84,7 @@ auth.post('/logout', async (req, res) => {
             client_id: client.config.uiClientId,
             client_secret: client.config.uiSecret,
             token,
+            token_type_hint: 'refresh_token'
         })
     })
     res.send(await response.json());
