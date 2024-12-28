@@ -32,7 +32,7 @@ music.get('/servers', verifySession, async (req, res) => {
         }
     }).then(response => response.json());
 
-    const similarServers = botServers.filter(server => userServers.some(userServer => userServer.id === server.id));
+    const similarServers = botServers.filter(server => userServers?.some(userServer => userServer.id === server.id));
 
     res.json(toObject(similarServers));
 })
