@@ -6,18 +6,15 @@ const Command = require('../../models/Command');
 const music = express.Router();
 
 music.post('/search', async (req, res) => {
-
-    const spotify_token = req.headers.s_authorization;
-    console.log(spotify_token);
-
-    const { query } = req.query;
-    const response = await fetch(`https://api.spotify.com/v1/search?q=${query}&type=track`, {
-        headers: {
-            authorization: `Bearer ${spotify_token}`
-        }
-    })
+    const { query, index = null } = req.body;
+    console.log('Searching', query);
+    const response = await fetch(`https://api.deezer.com/search?q=${query}${index ? `&index=${index}` : ''}`);
     const json = await response.json();
-    res.send(json);
+    const nextIndex = json.next ? new URL(json.next).searchParams.get('index') : null;
+    res.send({
+        songs: json.data.filter(track => track.type === 'track'),
+        next: nextIndex
+    });
 })
 
 music.get('/chart', async (req, res) => {

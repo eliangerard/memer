@@ -31,11 +31,12 @@ auth.get('/refresh', async (req, res) => {
     })
 
     const { id } = await meResponse.json();
-    if(!id) return res.status(401).send({message: 'Unauthorized'});
+    if (!id) return res.status(401).send({ message: 'Unauthorized' });
 
     const user = await client.users.fetch(id);
-    json.user = user;
-    res.send(json);
+    res.send({ ...json, ...user, 
+        activeBot: client.user.id
+     });
 })
 
 auth.post('/login', async (req, res) => {
@@ -58,6 +59,7 @@ auth.post('/login', async (req, res) => {
     })
     const json = await response.json();
 
+
     const meResponse = await fetch('https://discord.com/api/users/@me', {
         headers: {
             authorization: `Bearer ${json.access_token}`
@@ -66,36 +68,9 @@ auth.post('/login', async (req, res) => {
 
     const me = await meResponse.json();
     const { id } = me;
-    if(!id) return res.status(401).send({message: 'Unauthorized'});
-    const savedUser = await User.findOne({
-        discordId: id
-    })
-    console.log("IID",id);
-    const svUser = await client.users.fetch(id);
-    const user = { ...me, ...svUser };
-    
-    json.spotifyRefresh = savedUser?.spotifyRefresh;
+    if (!id) return res.status(401).send({ message: 'Unauthorized' });
 
-    if (!savedUser?.spotifyRefresh) {
-        json.user = user;
-        return res.send(json);
-    }
-
-    const spotifySession = await fetch("https://accounts.spotify.com/api/token", {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            Authorization: `Basic ${Buffer.from(`${client.config.spotifyClientId}:${client.config.spotifySecret}`).toString('base64')}`
-        },
-        body: new URLSearchParams({
-            grant_type: 'refresh_token',
-            refresh_token: savedUser.spotifyRefresh,
-            client_id: client.config.spotifyClientId,
-        })
-    }).then(res => res.json());
-
-    json.user = {...user, spotify: spotifySession};
-    res.send(json);
+    res.send({ ...me, ...json, activeBot: client.user.id });
 })
 
 auth.post('/logout', async (req, res) => {
@@ -119,7 +94,7 @@ auth.post('/verify', verifySession, async (req, res) => {
 })
 
 auth.post('/spotify', verifySession, async (req, res) => {
-    const {code} = req.body;
+    const { code } = req.body;
     console.log('code', code);
 
     const spotifySession = await fetch("https://accounts.spotify.com/api/token", {
@@ -146,16 +121,15 @@ auth.post('/spotify', verifySession, async (req, res) => {
     await user.save();
 
     console.log(user);
-    
+
     res.json(spotifySession);
 })
 
 auth.post('/spotify/refresh', verifySession, async (req, res) => {
-    console.log("REF",req.headers);
     if (!req.headers?.sauthorization) return res.status(400).send({ message: 'No token provided' });
     const refresh = req.headers.sauthorization.split(' ')[1];
 
-    console.log("Refresh:",refresh);
+    console.log("Refresh:", refresh);
     if (!refresh) return res.status(400).send({ message: 'No token provided' });
 
     const spotifySession = await fetch("https://accounts.spotify.com/api/token", {
