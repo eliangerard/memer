@@ -34,6 +34,7 @@ router.post('/command', verifySession, async (req, res) => {
             .setDescription("No se está reproduciendo nada")
             .setTimestamp()
             .setFooter({ text: client.user.username, iconURL: client.botURL });
+        res.send('Comando recibido, pero no se está reproduciendo nada');
         io.emit('command', { executed: false, error: 'No se está reproduciendo nada' });
         return message.channel.send({ embeds: [embed] }).then(msg => {
             setTimeout(() => msg.delete(), 15000)
