@@ -18,7 +18,7 @@ router.post('/command', verifySession, async (req, res) => {
     const guild = await client.guilds.fetch(guildId);
     const user = await guild.members.fetch(userId);
     const queue = client.distube.getQueue(guild);
-    
+
     const message = {
         guild,
         guildId,
@@ -34,7 +34,7 @@ router.post('/command', verifySession, async (req, res) => {
             .setDescription("No se está reproduciendo nada")
             .setTimestamp()
             .setFooter({ text: client.user.username, iconURL: client.botURL });
-
+        io.emit('command', { executed: false, error: 'No se está reproduciendo nada' });
         return message.channel.send({ embeds: [embed] }).then(msg => {
             setTimeout(() => msg.delete(), 15000)
         });
@@ -54,7 +54,7 @@ router.post('/command', verifySession, async (req, res) => {
                 voiceConnection = await client.distube.voices.join(message.member.voice.channel);
             else
                 voiceConnection = await client.distube.voices.get(message.member.voice.channel);
-    
+
             voiceConnection?.setSelfDeaf(false);
         } catch (error) {
             console.log(error);
@@ -77,7 +77,7 @@ router.post('/command', verifySession, async (req, res) => {
         content = null
     } = await command.execute(client, queue, message, params.split(" "));
 
-    if(!!content)
+    if (!!content)
         return await message.channel.send(content);
 
     const embed = new EmbedBuilder()
