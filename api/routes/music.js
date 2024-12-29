@@ -3,6 +3,7 @@ const { client } = require('../../services/client');
 const { verifySession } = require('../middlewares/verifySession');
 const { toObject } = require('../../util/toObject');
 const Command = require('../../models/Command');
+const { normalizeQueue } = require('../../util/normalizeQueue');
 const music = express.Router();
 
 music.post('/search', async (req, res) => {
@@ -61,8 +62,7 @@ music.get("/server/:id/queue", verifySession, async (req, res) => {
         { songs: [] }
     );
     res.json({
-        currentTime: queue.currentTime,
-        songs: queue.songs
+        queue: normalizeQueue(queue)
     });
 })
 
