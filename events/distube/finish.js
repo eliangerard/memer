@@ -1,11 +1,12 @@
 const { EmbedBuilder } = require("discord.js");
 const { io } = require("../socket");
+const { normalizeQueue } = require("../../util/normalizeQueue");
 
 module.exports = {
 	name: 'finish',
 	execute(queue,client) {
 
-        io.emit('queueUpdate', queue.songs);
+        io.emit('queueUpdate', normalizeQueue(queue));
         const embed = new EmbedBuilder()
             .setTitle(client.emotes.success + ` Finished`)
             .setDescription("Cola terminada")

@@ -1,4 +1,4 @@
-export const normalizeQueue = (queue) => {
+const normalizeQueue = (queue) => {
 
     if (!queue) return [];
 
@@ -12,3 +12,7 @@ export const normalizeQueue = (queue) => {
         },
     }));
 };
+
+module.exports = {
+    normalizeQueue
+}
