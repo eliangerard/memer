@@ -8,7 +8,14 @@ module.exports = {
 
 		console.log(queue.songs);
 
-		io.emit('queueUpdate', queue.songs.map(s => s.plugin = undefined));
+		io.emit('queueUpdate', queue.songs.map(song => ({
+			id: song.id,
+			name: song.name,
+			thumbnail: song.thumbnail,
+			artist: {
+				name: song.uploader.name
+			},
+		})));
 		const buttons = [
 			new ButtonBuilder()
 				.setCustomId('previous')
