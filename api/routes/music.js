@@ -54,16 +54,22 @@ music.get("/server/:id/queue", verifySession, async (req, res) => {
         { songs: [] }
     );
     console.log(id);
-    const guild = await client.guilds.fetch(id);
-    console.log(guild.id);
-    const queue = client.distube.getQueue(guild);
-    console.log(queue);
-    if (!queue) return res.json(
-        { queue: [] }
-    );
-    res.json({
-        queue: normalizeQueue(queue)
-    });
+    try {
+        const guild = await client.guilds.fetch(id)
+        console.log(guild.id);
+        const queue = client.distube.getQueue(guild);
+        console.log(queue);
+        if (!queue) return res.json(
+            { queue: [] }
+        );
+        res.json({
+            queue: normalizeQueue(queue)
+        });
+    } catch (error) {
+        return res.json(
+            { queue: [], error: 'SERVER_NOT_FOUND' }
+        );
+    }
 })
 
 module.exports = { music };
