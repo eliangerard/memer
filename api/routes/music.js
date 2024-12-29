@@ -59,7 +59,7 @@ music.get("/server/:id/queue", verifySession, async (req, res) => {
     const queue = client.distube.getQueue(guild);
     console.log(queue);
     if (!queue) return res.json(
-        { songs: [] }
+        { queue: [] }
     );
     res.json({
         queue: normalizeQueue(queue)
