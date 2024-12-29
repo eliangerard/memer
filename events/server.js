@@ -36,7 +36,7 @@ router.post('/command', verifySession, async (req, res) => {
             .setTimestamp()
             .setFooter({ text: client.user.username, iconURL: client.botURL });
         res.send('Comando recibido, pero no se está reproduciendo nada');
-        io.emit('command', { executed: false, error: 'No se está reproduciendo nada', queue: normalizeQueue(queue) });
+        io.to(message.guildId).emit('command', { executed: false, error: 'No se está reproduciendo nada', queue: normalizeQueue(queue) });
         return message.channel.send({ embeds: [embed] }).then(msg => {
             setTimeout(() => msg.delete(), 15000)
         });
@@ -118,7 +118,7 @@ router.post('/command', verifySession, async (req, res) => {
         }
     });
     console.log(executed);
-    io.emit('command', { executed, queue: normalizeQueue(queue) });
+    io.to(message.guildId).emit('command', { executed, queue: normalizeQueue(queue) });
     res.send('Comando recibido');
 })
 

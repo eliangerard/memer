@@ -9,7 +9,7 @@ module.exports = {
 
 		console.log(queue.songs);
 
-		io.emit('queueUpdate', normalizeQueue(queue));
+		io.to(queue.id).emit('queueUpdate', normalizeQueue(queue));
 		const buttons = [
 			new ButtonBuilder()
 				.setCustomId('previous')

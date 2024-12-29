@@ -7,7 +7,7 @@ module.exports = {
     execute(queue, song, client) {
         if (queue.songs.length == 0) return;
 
-        io.emit('queueUpdate', normalizeQueue(queue));
+        io.to(queue.id).emit('queueUpdate', normalizeQueue(queue));
         const embed = new EmbedBuilder()
             .setTitle(client.emotes.success + " Añadiendo")
             .setColor(client.config.accentColor)
