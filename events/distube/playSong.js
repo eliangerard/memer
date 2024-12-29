@@ -1,5 +1,6 @@
 const { ActionRowBuilder, EmbedBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
 const { io } = require("../socket");
+const { normalizeQueue } = require("../../util/normalizeQueue");
 
 module.exports = {
 	name: 'playSong',
@@ -8,14 +9,7 @@ module.exports = {
 
 		console.log(queue.songs);
 
-		io.emit('queueUpdate', queue.songs.map(song => ({
-			id: song.id,
-			name: song.name,
-			thumbnail: song.thumbnail,
-			artist: {
-				name: song.uploader.name
-			},
-		})));
+		io.emit('queueUpdate', normalizeQueue(queue));
 		const buttons = [
 			new ButtonBuilder()
 				.setCustomId('previous')
