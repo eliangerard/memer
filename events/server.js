@@ -8,7 +8,7 @@ const router = express.Router();
 
 router.post('/command', verifySession, async (req, res) => {
     console.log(req.body);
-    const { command: commandCalled, params, guildId } = req.body;
+    const { command: commandCalled, params = [], guildId } = req.body;
     const userId = req.user.id;
     console.log(commandCalled, params, guildId, userId);
     let command = client.commands.get(commandCalled);
