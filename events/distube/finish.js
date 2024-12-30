@@ -5,7 +5,7 @@ const { normalizeQueue } = require("../../util/normalizeQueue");
 module.exports = {
 	name: 'finish',
 	execute(queue,client) {
-
+        console.log('finished queue', queue.id);
         io.to(queue.id).emit('queueUpdate', normalizeQueue(queue));
         const embed = new EmbedBuilder()
             .setTitle(client.emotes.success + ` Finished`)

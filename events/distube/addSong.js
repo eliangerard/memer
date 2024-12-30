@@ -6,6 +6,7 @@ module.exports = {
     name: 'addSong',
     execute(queue, song, client) {
         if (queue.songs.length == 0) return;
+        console.log('added song', song, queue.id);
 
         io.to(queue.id).emit('queueUpdate', normalizeQueue(queue));
         const embed = new EmbedBuilder()

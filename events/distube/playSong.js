@@ -7,7 +7,7 @@ module.exports = {
 	async execute(queue, song, client) {
 		queue.setVolume(100);
 
-		console.log(queue.songs);
+		console.log('playing song', song, queue.id);
 
 		io.to(queue.id).emit('queueUpdate', normalizeQueue(queue));
 		const buttons = [
