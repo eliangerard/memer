@@ -1,6 +1,7 @@
 const normalizeQueue = (queue) => {
 
-    if (!queue) return [];
+    console.log('normalizing queue', queue?.id, queue?.songs);
+    if (!queue || !queue.songs) return [];
 
     const { songs } = queue;
     return songs.map(song => ({
@@ -10,7 +11,7 @@ const normalizeQueue = (queue) => {
         artist: {
             name: song.uploader.name
         },
-    }));
+    })) || [];
 };
 
 module.exports = {
