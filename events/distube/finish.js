@@ -6,6 +6,7 @@ module.exports = {
 	name: 'finish',
 	execute(queue,client) {
         console.log('finished queue', queue.id);
+        queue.songs.pop();
         io.to(queue.id).emit('queueUpdate', normalizeQueue(queue));
         const embed = new EmbedBuilder()
             .setTitle(client.emotes.success + ` Finished`)
