@@ -9,6 +9,8 @@ auth.get('/refresh', async (req, res) => {
 
     if (!refresh_token) return res.status(400).send({ message: 'No token provided' });
 
+    const redirect_uri = req.headers.origin + '/callback/discord';
+
     const response = await fetch('https://discord.com/api/oauth2/token', {
         method: 'POST',
         headers: {
@@ -19,7 +21,7 @@ auth.get('/refresh', async (req, res) => {
             client_secret: client.config.uiSecret,
             grant_type: 'refresh_token',
             refresh_token: refresh_token,
-            redirect_uri: client.config.redirectUri,
+            redirect_uri,
             scope: 'identify'
         })
     })
@@ -43,6 +45,8 @@ auth.post('/login', async (req, res) => {
     const { code } = req.body;
     console.log('code', code);
 
+    const redirect_uri = req.headers.origin + '/callback/discord';
+
     const response = await fetch('https://discord.com/api/oauth2/token', {
         method: 'POST',
         headers: {
@@ -53,7 +57,7 @@ auth.post('/login', async (req, res) => {
             client_secret: client.config.uiSecret,
             grant_type: 'authorization_code',
             code,
-            redirect_uri: client.config.redirectUri,
+            redirect_uri,
             scope: 'identify'
         })
     })
