@@ -43,9 +43,9 @@ auth.get('/refresh', async (req, res) => {
 
 auth.post('/login', async (req, res) => {
     const { code } = req.body;
-    console.log('code', code);
-
+    
     const redirect_uri = req.headers.origin + '/callback/discord';
+    console.log('code', code, redirect_uri);
 
     const response = await fetch('https://discord.com/api/oauth2/token', {
         method: 'POST',
@@ -63,14 +63,16 @@ auth.post('/login', async (req, res) => {
     })
     const json = await response.json();
 
+    console.log(json);
 
     const meResponse = await fetch('https://discord.com/api/users/@me', {
         headers: {
             authorization: `Bearer ${json.access_token}`
         }
-    })
-
+    });
     const me = await meResponse.json();
+    console.log(me);
+
     const { id } = me;
     if (!id) return res.status(401).send({ message: 'Unauthorized' });
 
