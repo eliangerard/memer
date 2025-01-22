@@ -7,13 +7,14 @@ module.exports = {
 	async execute(message, client) {
 		const user = message.author.username + message.author.discriminator;
 		if (!message.content) return;
-		console.log(`${user}: ${message.content}`);
 		message.content = message.content.toLowerCase();
 		const params = message.content.split(' ');
+		if (params[0] === 'oye') params.shift();
 		if (!client.config.voicePrefix.includes(params.shift()))
 			return;
-
+		
 		const voiceCommand = params.shift();
+		console.log(`${user}: ${message.content}`);
 		console.log(`Comando dicho: ${voiceCommand}`);
 		const command = client.commands.find(command => command.voiceCommand && command.voiceCommand.includes(voiceCommand));
 		if (!command)

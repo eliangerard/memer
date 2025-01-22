@@ -2,7 +2,7 @@ const { EmbedBuilder } = require("discord.js");
 
 module.exports = {
 	name: 'error',
-	execute(channel, e, client) {
+	execute(e, queue, song, client) {
         const embed = new EmbedBuilder()
             .setTitle(client.emotes.error + " Error")
             .setColor("#FF0000")
@@ -10,9 +10,9 @@ module.exports = {
             .setTimestamp()
             .setFooter({text:'Memer', iconURL: client.botURL})
         
-        channel.send({ embeds: [embed] }).then(msg => {
+        queue.textChannel.send({ embeds: [embed] }).then(msg => {
             setTimeout(() => msg.delete(), 15000)
         })    
-        console.error(e)
+        console.error(e, song)
 	},
 };

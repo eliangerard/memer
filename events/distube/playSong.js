@@ -1,10 +1,15 @@
 const { ActionRowBuilder, EmbedBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
+const { io } = require("../socket");
+const { normalizeQueue } = require("../../util/normalizeQueue");
 
 module.exports = {
 	name: 'playSong',
 	async execute(queue, song, client) {
 		queue.setVolume(100);
 
+		console.log('playing song', song, queue.id);
+
+		io.to(queue.id).emit('queueUpdate', normalizeQueue(queue));
 		const buttons = [
 			new ButtonBuilder()
 				.setCustomId('previous')
